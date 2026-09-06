@@ -8,10 +8,10 @@ interface Provider {
 }
 
 interface Props {
-  providers: {
-    streaming: Provider[];
-    rent: Provider[];
-    buy: Provider[];
+  readonly providers: {
+    readonly streaming: Provider[];
+    readonly rent: Provider[];
+    readonly buy: Provider[];
   };
 }
 
@@ -20,9 +20,9 @@ function ProviderGroup({
   icon,
   providers,
 }: {
-  title: string;
-  icon: React.ReactNode;
-  providers: Provider[];
+  readonly title: string;
+  readonly icon: React.ReactNode;
+  readonly providers: Provider[];
 }) {
   if (providers.length === 0) return null;
   return (

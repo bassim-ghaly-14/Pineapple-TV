@@ -6,11 +6,10 @@ import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { TVShow, Episode, CastMember } from "@/lib/domain/models";
 import { buildStillUrl, buildPosterUrl } from "@/lib/tmdb/image-config";
-import { formatDate, formatRuntime, formatVote } from "@/lib/utils";
+import { formatDate, formatRuntime, formatVote, cn } from "@/lib/utils";
 import { usePersonalState } from "@/lib/state/PersonalStateContext";
 import { SeasonSelector } from "./SeasonSelector";
 import { CastCard } from "@/components/media/PersonCard";
-import { cn } from "@/lib/utils";
 
 interface SeasonData {
   id: number;
@@ -25,9 +24,9 @@ interface SeasonData {
 }
 
 interface Props {
-  season: SeasonData;
-  tv: TVShow;
-  cast: CastMember[];
+  readonly season: SeasonData;
+  readonly tv: TVShow;
+  readonly cast: CastMember[];
 }
 
 export function SeasonView({ season, tv, cast }: Props) {

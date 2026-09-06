@@ -11,12 +11,11 @@ import { pickTrailer } from "@/lib/tmdb/trailer";
 import { CastCard, CrewCard } from "@/components/media/PersonCard";
 import { MediaRow } from "@/components/media/MediaRow";
 import { WatchlistButton, FavoriteButton, WatchedButton, RatingStars } from "@/components/ui/MediaActions";
-import { usePersonalState } from "@/lib/state/PersonalStateContext";
 import { WatchProviders } from "@/components/media/WatchProviders";
 import { Keywords } from "@/components/media/Keywords";
 
 interface Props {
-  data: {
+  readonly data: {
     movie: Movie;
     cast: CastMember[];
     crew: CrewMember[];
@@ -31,12 +30,10 @@ interface Props {
 export function MovieDetail({ data }: Props) {
   const { movie, cast, crew, videos, recommendations, similar } = data;
   const [trailerKey, setTrailerKey] = useState<string | null>(null);
-  const { isMovieWatched } = usePersonalState();
 
   const trailer = pickTrailer(videos);
 
   const backdrop = buildBackdropUrl(movie.backdropPath, "hero");
-  const watched = isMovieWatched(movie.id);
 
   return (
     <div className="space-y-8">

@@ -3,8 +3,8 @@ import { MediaCard } from "./MediaCard";
 import { Skeleton } from "@/components/ui/Skeleton";
 
 interface MediaGridProps {
-  items: MediaSummary[] | undefined;
-  isLoading: boolean;
+  readonly items: MediaSummary[] | undefined;
+  readonly isLoading: boolean;
 }
 
 export function MediaGrid({ items, isLoading }: MediaGridProps) {

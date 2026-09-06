@@ -6,7 +6,7 @@ import { buildPosterUrl } from "@/lib/tmdb/image-config";
 import { formatVote } from "@/lib/utils";
 import { WatchlistButton, FavoriteButton } from "@/components/ui/MediaActions";
 
-export function MediaCard({ media }: { media: MediaSummary }) {
+export function MediaCard({ media }: { readonly media: MediaSummary }) {
   const href = `/${media.mediaType === "tv" ? "tv" : "movies"}/${media.id}`;
   const poster = buildPosterUrl(media.posterPath, "card");
 

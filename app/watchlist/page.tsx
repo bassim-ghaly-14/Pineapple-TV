@@ -10,6 +10,12 @@ import { Bookmark } from "lucide-react";
 
 type Filter = "all" | MediaType;
 
+function filterLabel(f: Filter): string {
+  if (f === "all") return "All";
+  if (f === "movie") return "Movies";
+  return "TV Shows";
+}
+
 export default function WatchlistPage() {
   const { watchlist, ready } = usePersonalState();
   const [filter, setFilter] = useState<Filter>("all");
@@ -28,6 +34,23 @@ export default function WatchlistPage() {
     voteAverage: 0,
     voteCount: 0,
   }));
+
+  let content: React.ReactNode;
+  if (!ready) {
+    content = <MediaGrid items={[]} isLoading={true} />;
+  } else if (watchlist.length === 0) {
+    content = (
+      <EmptyState
+        icon={<Bookmark className="h-10 w-10 text-muted" />}
+        title="Your watchlist is empty"
+        message="Save movies and TV shows to keep track of what you want to watch."
+      />
+    );
+  } else if (items.length === 0) {
+    content = <EmptyState title="No items in this filter" />;
+  } else {
+    content = <MediaGrid items={items} isLoading={false} />;
+  }
 
   return (
     <div className="space-y-6">
@@ -48,24 +71,12 @@ export default function WatchlistPage() {
               filter === f ? "bg-accent text-accent-text" : "text-muted hover:text-text",
             )}
           >
-            {f === "all" ? "All" : f === "movie" ? "Movies" : "TV Shows"}
+            {filterLabel(f)}
           </button>
         ))}
       </div>
 
-      {!ready ? (
-        <MediaGrid items={[]} isLoading={true} />
-      ) : watchlist.length === 0 ? (
-        <EmptyState
-          icon={<Bookmark className="h-10 w-10 text-muted" />}
-          title="Your watchlist is empty"
-          message="Save movies and TV shows to keep track of what you want to watch."
-        />
-      ) : items.length === 0 ? (
-        <EmptyState title="No items in this filter" />
-      ) : (
-        <MediaGrid items={items} isLoading={false} />
-      )}
+      {content}
     </div>
   );
 }

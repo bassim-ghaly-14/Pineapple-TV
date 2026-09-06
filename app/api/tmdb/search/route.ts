@@ -12,12 +12,14 @@ export async function GET(req: Request) {
   if (!query) return NextResponse.json({ results: [], page: 1, totalPages: 0, totalResults: 0 });
 
   try {
-    const res =
-      type === "movie"
-        ? await searchMovies(query, page)
-        : type === "tv"
-          ? await searchTV(query, page)
-          : await searchMulti(query, page);
+    let res;
+    if (type === "movie") {
+      res = await searchMovies(query, page);
+    } else if (type === "tv") {
+      res = await searchTV(query, page);
+    } else {
+      res = await searchMulti(query, page);
+    }
     return NextResponse.json(res);
   } catch {
     return NextResponse.json({ error: "Search failed" }, { status: 500 });

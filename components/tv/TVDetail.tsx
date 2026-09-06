@@ -6,19 +6,18 @@ import Image from "next/image";
 import { Calendar, Tv, Clock, Star } from "lucide-react";
 import type { TVShow, CastMember, CrewMember, Video, MediaSummary } from "@/lib/domain/models";
 import { buildPosterUrl, buildBackdropUrl } from "@/lib/tmdb/image-config";
-import { formatDate, formatVote } from "@/lib/utils";
 import { TrailerModal } from "@/components/media/TrailerModal";
 import { pickTrailer } from "@/lib/tmdb/trailer";
 import { CastCard, CrewCard } from "@/components/media/PersonCard";
 import { MediaRow } from "@/components/media/MediaRow";
 import { WatchlistButton, FavoriteButton, RatingStars } from "@/components/ui/MediaActions";
 import { usePersonalState } from "@/lib/state/PersonalStateContext";
-import { cn } from "@/lib/utils";
 import { WatchProviders } from "@/components/media/WatchProviders";
 import { Keywords } from "@/components/media/Keywords";
+import { formatDate, formatVote, cn } from "@/lib/utils";
 
 interface Props {
-  data: {
+  readonly data: {
     tv: TVShow;
     cast: CastMember[];
     crew: CrewMember[];

@@ -6,7 +6,7 @@ import { Sidebar } from "./Sidebar";
 import { MobileNavigation } from "./MobileNavigation";
 import { Footer } from "./Footer";
 
-export function AppShell({ children }: { children: ReactNode }) {
+export function AppShell({ children }: { readonly children: ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (

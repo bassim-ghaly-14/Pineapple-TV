@@ -6,9 +6,9 @@ import { X, ExternalLink } from "lucide-react";
 import { buildTrailerEmbedUrl, buildTrailerWatchUrl } from "@/lib/tmdb/trailer";
 
 interface TrailerModalProps {
-  videoKey: string | null;
-  title: string;
-  onClose: () => void;
+  readonly videoKey: string | null;
+  readonly title: string;
+  readonly onClose: () => void;
 }
 
 function TrailerIframe({
@@ -16,9 +16,9 @@ function TrailerIframe({
   title,
   onError,
 }: {
-  src: string;
-  title: string;
-  onError: () => void;
+  readonly src: string;
+  readonly title: string;
+  readonly onError: () => void;
 }) {
   return (
     <iframe
@@ -41,12 +41,8 @@ export function TrailerModal({ videoKey, title, onClose }: TrailerModalProps) {
 
   // origin is only meaningful in the browser; pass the running app's origin
   // to YouTube (its recommended embed security measure).
-  const embedUrl = videoKey
-    ? buildTrailerEmbedUrl(
-        videoKey,
-        typeof window !== "undefined" ? window.location.origin : undefined,
-      )
-    : null;
+  const origin = typeof window !== "undefined" ? window.location.origin : undefined;
+  const embedUrl = videoKey ? buildTrailerEmbedUrl(videoKey, origin) : null;
   const youtubeUrl = videoKey ? buildTrailerWatchUrl(videoKey) : null;
 
   useEffect(() => {
@@ -71,9 +67,9 @@ export function TrailerModal({ videoKey, title, onClose }: TrailerModalProps) {
   // never becomes a child of page containers with spacing utilities
   // (e.g. space-y-8), whose generated margins would distort the overlay.
   return createPortal(
-    <div
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
-      role="dialog"
+    <dialog
+      open
+      className="fixed inset-0 z-[60] m-0 flex h-full max-h-none w-full max-w-none items-center justify-center border-none bg-transparent p-4"
       aria-modal="true"
       aria-label={`${title} trailer`}
     >
@@ -128,7 +124,7 @@ export function TrailerModal({ videoKey, title, onClose }: TrailerModalProps) {
           </a>
         </div>
       </div>
-    </div>,
+    </dialog>,
     document.body,
   );
 }

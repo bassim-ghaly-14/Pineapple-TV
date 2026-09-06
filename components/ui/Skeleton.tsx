@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 interface SkeletonProps {
-  className?: string;
+  readonly className?: string;
 }
 
 export function Skeleton({ className }: SkeletonProps) {
@@ -18,11 +18,12 @@ export function CardSkeleton() {
   );
 }
 
-export function RowSkeleton({ cards = 6 }: { cards?: number }) {
+export function RowSkeleton({ cards = 6 }: { readonly cards?: number }) {
+  const skeletonIds = Array.from({ length: cards }, (_, i) => `skeleton-card-${i}`);
   return (
     <div className="flex gap-3 overflow-hidden">
-      {Array.from({ length: cards }).map((_, i) => (
-        <CardSkeleton key={i} />
+      {skeletonIds.map((id) => (
+        <CardSkeleton key={id} />
       ))}
     </div>
   );
@@ -32,11 +33,12 @@ export function HeroSkeleton() {
   return <Skeleton className="aspect-[16/9] w-full lg:aspect-[21/9]" />;
 }
 
-export function TextLines({ lines = 3, className }: { lines?: number; className?: string }) {
+export function TextLines({ lines = 3, className }: { readonly lines?: number; readonly className?: string }) {
+  const lineIds = Array.from({ length: lines }, (_, i) => `text-line-${i}`);
   return (
     <div className={cn("space-y-2", className)}>
-      {Array.from({ length: lines }).map((_, i) => (
-        <Skeleton key={i} className={`h-3 ${i === lines - 1 ? "w-2/3" : "w-full"}`} />
+      {lineIds.map((id, i) => (
+        <Skeleton key={id} className={`h-3 ${i === lines - 1 ? "w-2/3" : "w-full"}`} />
       ))}
     </div>
   );

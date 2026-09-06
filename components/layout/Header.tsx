@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Menu, Moon, Search, Sun } from "lucide-react";
 import { useTheme } from "@/lib/theme/provider";
 
-export function Header({ onMenuToggle }: { onMenuToggle: () => void }) {
+export function Header({ onMenuToggle }: { readonly onMenuToggle: () => void }) {
   const { theme, toggle } = useTheme();
   const router = useRouter();
   const [search, setSearch] = useState("");

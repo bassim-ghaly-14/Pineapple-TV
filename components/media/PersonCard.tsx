@@ -3,7 +3,7 @@ import { User } from "lucide-react";
 import type { CastMember, CrewMember } from "@/lib/domain/models";
 import { buildProfileUrl } from "@/lib/tmdb/image-config";
 
-export function CastCard({ person }: { person: CastMember }) {
+export function CastCard({ person }: { readonly person: CastMember }) {
   const img = buildProfileUrl(person.profilePath, "small");
   return (
     <div className="w-28 shrink-0 text-center sm:w-32">
@@ -22,7 +22,7 @@ export function CastCard({ person }: { person: CastMember }) {
   );
 }
 
-export function CrewCard({ person }: { person: CrewMember }) {
+export function CrewCard({ person }: { readonly person: CrewMember }) {
   const img = buildProfileUrl(person.profilePath, "small");
   return (
     <div className="w-28 shrink-0 text-center sm:w-32">

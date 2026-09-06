@@ -1,6 +1,6 @@
 import { Tag } from "lucide-react";
 
-export function Keywords({ keywords }: { keywords: string[] }) {
+export function Keywords({ keywords }: { readonly keywords: string[] }) {
   if (keywords.length === 0) return null;
   return (
     <section aria-labelledby="keywords-heading" className="space-y-3">

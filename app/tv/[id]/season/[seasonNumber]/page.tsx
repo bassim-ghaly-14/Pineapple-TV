@@ -5,7 +5,7 @@ import { SeasonView } from "@/components/tv/SeasonView";
 export const revalidate = 86400;
 
 interface Props {
-  params: { id: string; seasonNumber: string };
+  readonly params: { id: string; seasonNumber: string };
 }
 
 export default async function SeasonPage({ params }: Props) {

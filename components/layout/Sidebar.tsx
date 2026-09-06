@@ -36,8 +36,8 @@ const PERSONAL = [
 ];
 
 interface SidebarProps {
-  mobileOpen: boolean;
-  onMobileClose: () => void;
+  readonly mobileOpen: boolean;
+  readonly onMobileClose: () => void;
 }
 
 export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
@@ -91,9 +91,9 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div
-          className="fixed inset-0 z-50 lg:hidden"
-          role="dialog"
+        <dialog
+          open
+          className="fixed inset-0 z-50 m-0 h-full max-h-none w-full max-w-none border-none bg-transparent p-0 lg:hidden"
           aria-modal="true"
           aria-label="Navigation menu">
           <button
@@ -118,7 +118,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
 
             {content}
           </aside>
-        </div>
+        </dialog>
       )}
     </>
   );

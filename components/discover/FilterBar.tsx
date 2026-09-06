@@ -7,7 +7,6 @@ import type { Genre } from "@/lib/domain/models";
 import {
   ChevronLeft,
   ChevronRight,
-  X,
   SlidersHorizontal,
   Tags,
   ArrowUpDown,
@@ -18,11 +17,11 @@ import {
 import { type FilterState, buildUrlParams } from "@/lib/discover/filters";
 
 interface FilterBarProps {
-  genres: Genre[];
-  basePath: string;
-  filters: FilterState;
-  totalPages: number;
-  sortOptions: { value: string; label: string }[];
+  readonly genres: Genre[];
+  readonly basePath: string;
+  readonly filters: FilterState;
+  readonly totalPages: number;
+  readonly sortOptions: { value: string; label: string }[];
 }
 
 export function FilterBar({

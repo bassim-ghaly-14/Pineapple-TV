@@ -7,7 +7,7 @@ import { parseFilters } from "@/lib/discover/filters";
 export const revalidate = 600;
 
 interface Props {
-  searchParams: { [key: string]: string | string[] | undefined };
+  readonly searchParams: { [key: string]: string | string[] | undefined };
 }
 
 const SORT_OPTIONS = [

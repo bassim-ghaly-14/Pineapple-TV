@@ -79,11 +79,11 @@ describe("WatchedRepository", () => {
     expect(repo.isMovieWatched(1)).toBe(false);
   });
 
-  it("toggles movie state", () => {
+  it("marks and unmarks movie watched state", () => {
     const repo = new WatchedRepository();
-    repo.toggleMovie(1, true);
+    repo.markMovieWatched(1);
     expect(repo.isMovieWatched(1)).toBe(true);
-    repo.toggleMovie(1, false);
+    repo.markMovieUnwatched(1);
     expect(repo.isMovieWatched(1)).toBe(false);
   });
 

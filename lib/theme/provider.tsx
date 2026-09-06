@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 type Theme = "dark" | "light";
 
@@ -14,26 +14,34 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 const STORAGE_KEY = "pineapple-theme";
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+export function ThemeProvider({ children }: { readonly children: ReactNode }) {
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
     const initial = stored ?? "dark";
-    setThemeState(initial);
+    setTheme(initial);
     document.documentElement.classList.toggle("light", initial === "light");
-  }, []);
+  }, [setTheme]);
 
-  const setTheme = (t: Theme) => {
-    setThemeState(t);
+  const applyTheme = useCallback((t: Theme) => {
+    setTheme(t);
     document.documentElement.classList.toggle("light", t === "light");
     window.localStorage.setItem(STORAGE_KEY, t);
-  };
+  }, [setTheme]);
 
-  const toggle = () => setTheme(theme === "dark" ? "light" : "dark");
+  const toggle = useCallback(
+    () => applyTheme(theme === "dark" ? "light" : "dark"),
+    [applyTheme, theme],
+  );
+
+  const value = useMemo(
+    () => ({ theme, toggle, setTheme: applyTheme }),
+    [theme, toggle, applyTheme],
+  );
 
   return (
-    <ThemeContext.Provider value={{ theme, toggle, setTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

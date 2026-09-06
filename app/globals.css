@@ -51,6 +51,10 @@
 
 * {
   border-color: rgb(var(--border) / 0.08);
+  scrollbar-color:
+    rgb(var(--scrollbar-thumb))
+    rgb(var(--scrollbar-track));
+  scrollbar-width: thin;
 }
 
 html {
@@ -129,14 +133,6 @@ body {
 
 ::-webkit-scrollbar-corner {
   background: rgb(var(--scrollbar-track));
-}
-
-/* Keep scrollbar branded on horizontal scrolling elements too */
-* {
-  scrollbar-color:
-    rgb(var(--scrollbar-thumb))
-    rgb(var(--scrollbar-track));
-  scrollbar-width: thin;
 }
 
 /* =========================================================

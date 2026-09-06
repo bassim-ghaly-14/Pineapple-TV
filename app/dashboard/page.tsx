@@ -14,10 +14,10 @@ function StatCard({
   value,
   accent = false,
 }: {
-  icon: React.ReactNode;
-  label: string;
-  value: string | number;
-  accent?: boolean;
+  readonly icon: React.ReactNode;
+  readonly label: string;
+  readonly value: string | number;
+  readonly accent?: boolean;
 }) {
   return (
     <div className="rounded-lg border border-white/5 bg-surface p-4">
@@ -34,7 +34,7 @@ function StatCard({
   );
 }
 
-function ActivityItem({ entry }: { entry: ActivityEntry }) {
+function ActivityItem({ entry }: { readonly entry: ActivityEntry }) {
   const poster = buildPosterUrl(entry.posterPath, "card");
   const href = `/${entry.mediaType === "tv" ? "tv" : "movies"}/${entry.mediaId}`;
 
@@ -62,7 +62,7 @@ function ActivityItem({ entry }: { entry: ActivityEntry }) {
   );
 }
 
-function ContinueWatchingCard({ progress }: { progress: TVProgress }) {
+function ContinueWatchingCard({ progress }: { readonly progress: TVProgress }) {
   const lastSeason = progress.lastWatchedSeason;
   const lastEpisode = progress.lastWatchedEpisode;
   const poster = buildPosterUrl(progress.posterPath ?? null, "card");

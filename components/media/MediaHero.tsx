@@ -5,11 +5,11 @@ import { buildBackdropUrl } from "@/lib/tmdb/image-config";
 import { formatVote } from "@/lib/utils";
 
 interface MediaHeroProps {
-  media: MediaSummary;
-  onPlayTrailer?: () => void;
-  primaryActionLabel?: string;
-  isTrailerLoading?: boolean;
-  children?: React.ReactNode;
+  readonly media: MediaSummary;
+  readonly onPlayTrailer?: () => void;
+  readonly primaryActionLabel?: string;
+  readonly isTrailerLoading?: boolean;
+  readonly children?: React.ReactNode;
 }
 
 export function MediaHero({

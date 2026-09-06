@@ -7,10 +7,10 @@ export function ErrorState({
   onRetry,
   retryHref,
 }: {
-  title?: string;
-  message?: string;
-  onRetry?: () => void;
-  retryHref?: string;
+  readonly title?: string;
+  readonly message?: string;
+  readonly onRetry?: () => void;
+  readonly retryHref?: string;
 }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-white/5 bg-surface px-6 py-12 text-center">
@@ -44,9 +44,9 @@ export function EmptyState({
   message,
   icon,
 }: {
-  title?: string;
-  message?: string;
-  icon?: React.ReactNode;
+  readonly title?: string;
+  readonly message?: string;
+  readonly icon?: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-white/10 px-6 py-16 text-center">

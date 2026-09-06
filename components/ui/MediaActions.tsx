@@ -10,8 +10,8 @@ export function WatchlistButton({
   media,
   size = "md",
 }: {
-  media: MediaSummary;
-  size?: "sm" | "md";
+  readonly media: MediaSummary;
+  readonly size?: "sm" | "md";
 }) {
   const { isInWatchlist, toggleWatchlist } = usePersonalState();
   const active = isInWatchlist(media.id, media.mediaType);
@@ -47,8 +47,8 @@ export function FavoriteButton({
   media,
   size = "md",
 }: {
-  media: MediaSummary;
-  size?: "sm" | "md";
+  readonly media: MediaSummary;
+  readonly size?: "sm" | "md";
 }) {
   const { isFavorite, toggleFavorite } = usePersonalState();
   const active = isFavorite(media.id, media.mediaType);
@@ -80,7 +80,7 @@ export function FavoriteButton({
   );
 }
 
-export function WatchedButton({ media }: { media: MediaSummary }) {
+export function WatchedButton({ media }: { readonly media: MediaSummary }) {
   const { isMovieWatched, toggleMovieWatched } = usePersonalState();
   const watched = media.mediaType === "movie" && isMovieWatched(media.id);
 
@@ -110,8 +110,8 @@ export function RatingStars({
   media,
   size = "md",
 }: {
-  media: MediaSummary;
-  size?: "sm" | "md";
+  readonly media: MediaSummary;
+  readonly size?: "sm" | "md";
 }) {
   const { getRating, setRating } = usePersonalState();
   const [hover, setHover] = useState(0);
@@ -120,9 +120,8 @@ export function RatingStars({
   const starSize = size === "sm" ? "h-4 w-4" : "h-5 w-5";
 
   return (
-    <div
-      className="inline-flex items-center gap-0.5"
-      role="group"
+    <fieldset
+      className="inline-flex min-w-0 items-center gap-0.5"
       aria-label="Rate this title"
       onMouseLeave={() => setHover(0)}
     >
@@ -150,6 +149,6 @@ export function RatingStars({
           />
         </button>
       ))}
-    </div>
+    </fieldset>
   );
 }

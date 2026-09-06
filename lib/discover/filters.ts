@@ -1,5 +1,3 @@
-import type { Genre } from "@/lib/domain/models";
-
 export interface FilterState {
   genre?: number;
   sort?: string;

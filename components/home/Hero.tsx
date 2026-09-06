@@ -8,7 +8,7 @@ import { TrailerModal } from "@/components/media/TrailerModal";
 type TrailerState = "idle" | "loading" | "unavailable" | "error";
 
 // Hero fetches its own trailer on demand to avoid blocking the home page.
-export function Hero({ media }: { media: MediaSummary }) {
+export function Hero({ media }: { readonly media: MediaSummary }) {
   const [trailerKey, setTrailerKey] = useState<string | null>(null);
   const [status, setStatus] = useState<TrailerState>("idle");
 
@@ -42,10 +42,10 @@ export function Hero({ media }: { media: MediaSummary }) {
         isTrailerLoading={status === "loading"}
       >
         {status === "unavailable" && (
-          <p role="status" className="text-sm text-muted">
+          <output className="block text-sm text-muted">
             No trailer is currently available for this title. You can still
             browse it on TMDB.
-          </p>
+          </output>
         )}
         {status === "error" && (
           <p role="alert" className="text-sm text-muted">

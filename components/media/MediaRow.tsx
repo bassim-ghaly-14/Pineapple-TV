@@ -7,10 +7,10 @@ import { MediaCard } from "./MediaCard";
 import { RowSkeleton } from "@/components/ui/Skeleton";
 
 interface MediaRowProps {
-  title: string;
-  items: MediaSummary[] | undefined;
-  isLoading: boolean;
-  error?: boolean;
+  readonly title: string;
+  readonly items: MediaSummary[] | undefined;
+  readonly isLoading: boolean;
+  readonly error?: boolean;
 }
 
 export function MediaRow({ title, items, isLoading, error }: MediaRowProps) {
@@ -20,6 +20,34 @@ export function MediaRow({ title, items, isLoading, error }: MediaRowProps) {
     const el = scrollerRef.current;
     if (!el) return;
     el.scrollBy({ left: dir === "left" ? -el.clientWidth * 0.8 : el.clientWidth * 0.8, behavior: "smooth" });
+  };
+
+  const renderContent = () => {
+    if (error) {
+      return (
+        <div className="rounded-lg border border-white/5 bg-surface px-4 py-8 text-center text-sm text-muted">
+          Could not load this section.
+        </div>
+      );
+    }
+    if (isLoading || !items) {
+      return <RowSkeleton />;
+    }
+    if (items.length === 0) {
+      return <p className="text-sm text-muted">No results.</p>;
+    }
+    return (
+      <div
+        ref={scrollerRef}
+        className="scrollbar-none flex gap-3 overflow-x-auto pb-2"
+      >
+        {items.map((item) => (
+          <div key={`${item.mediaType}-${item.id}`} className="w-[150px] shrink-0 sm:w-[180px]">
+            <MediaCard media={item} />
+          </div>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -46,26 +74,7 @@ export function MediaRow({ title, items, isLoading, error }: MediaRowProps) {
         </div>
       </div>
 
-      {error ? (
-        <div className="rounded-lg border border-white/5 bg-surface px-4 py-8 text-center text-sm text-muted">
-          Could not load this section.
-        </div>
-      ) : isLoading || !items ? (
-        <RowSkeleton />
-      ) : items.length === 0 ? (
-        <p className="text-sm text-muted">No results.</p>
-      ) : (
-        <div
-          ref={scrollerRef}
-          className="scrollbar-none flex gap-3 overflow-x-auto pb-2"
-        >
-          {items.map((item) => (
-            <div key={`${item.mediaType}-${item.id}`} className="w-[150px] shrink-0 sm:w-[180px]">
-              <MediaCard media={item} />
-            </div>
-          ))}
-        </div>
-      )}
+      {renderContent()}
     </section>
   );
 }

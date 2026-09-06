@@ -63,7 +63,7 @@ function makeActivityId(type: string, mediaId: number): string {
   return `${mediaId}:${type}:${Date.now()}`;
 }
 
-export function PersonalStateProvider({ children }: { children: ReactNode }) {
+export function PersonalStateProvider({ children }: { readonly children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [watchlist, setWatchlist] = useState<SavedMedia[]>([]);
   const [favorites, setFavorites] = useState<SavedMedia[]>([]);
@@ -142,7 +142,7 @@ export function PersonalStateProvider({ children }: { children: ReactNode }) {
   );
 
   const toggleMovieWatched = useCallback((id: number, watched: boolean) => {
-    const next = watchedRepo.toggleMovie(id, watched);
+    const next = watched ? watchedRepo.markMovieWatched(id) : watchedRepo.markMovieUnwatched(id);
     setWatchedMovies(next);
   }, []);
 
@@ -217,33 +217,62 @@ export function PersonalStateProvider({ children }: { children: ReactNode }) {
     setActivity([]);
   }, []);
 
-  const value: PersonalState = {
-    ready,
-    watchlist,
-    isInWatchlist,
-    toggleWatchlist,
-    favorites,
-    isFavorite,
-    toggleFavorite,
-    watchedMovies,
-    isMovieWatched,
-    toggleMovieWatched,
-    tvProgress,
-    getShowProgress,
-    isEpisodeWatched,
-    toggleEpisodeWatched,
-    getSeasonWatchedCount,
-    getTotalWatchedEpisodes,
-    enrichTVSnapshot,
-    ratings,
-    getRating,
-    setRating: setRatingValue,
-    removeRating,
-    averageRating,
-    activity,
-    recentActivity,
-    clearAll,
-  };
+  const value: PersonalState = useMemo(
+    () => ({
+      ready,
+      watchlist,
+      isInWatchlist,
+      toggleWatchlist,
+      favorites,
+      isFavorite,
+      toggleFavorite,
+      watchedMovies,
+      isMovieWatched,
+      toggleMovieWatched,
+      tvProgress,
+      getShowProgress,
+      isEpisodeWatched,
+      toggleEpisodeWatched,
+      getSeasonWatchedCount,
+      getTotalWatchedEpisodes,
+      enrichTVSnapshot,
+      ratings,
+      getRating,
+      setRating: setRatingValue,
+      removeRating,
+      averageRating,
+      activity,
+      recentActivity,
+      clearAll,
+    }),
+    [
+      ready,
+      watchlist,
+      isInWatchlist,
+      toggleWatchlist,
+      favorites,
+      isFavorite,
+      toggleFavorite,
+      watchedMovies,
+      isMovieWatched,
+      toggleMovieWatched,
+      tvProgress,
+      getShowProgress,
+      isEpisodeWatched,
+      toggleEpisodeWatched,
+      getSeasonWatchedCount,
+      getTotalWatchedEpisodes,
+      enrichTVSnapshot,
+      ratings,
+      getRating,
+      setRatingValue,
+      removeRating,
+      averageRating,
+      activity,
+      recentActivity,
+      clearAll,
+    ],
+  );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

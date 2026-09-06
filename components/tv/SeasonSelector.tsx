@@ -4,9 +4,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface Props {
-  showId: number;
-  currentSeason: number;
-  totalSeasons: number;
+  readonly showId: number;
+  readonly currentSeason: number;
+  readonly totalSeasons: number;
 }
 
 export function SeasonSelector({ showId, currentSeason, totalSeasons }: Props) {

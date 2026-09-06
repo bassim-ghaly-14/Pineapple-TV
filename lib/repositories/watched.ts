@@ -31,10 +31,6 @@ export class WatchedRepository {
     return next;
   }
 
-  toggleMovie(id: number, watched: boolean): number[] {
-    return watched ? this.markMovieWatched(id) : this.markMovieUnwatched(id);
-  }
-
   // -- TV: episode-level --
   getAllTVProgress(): TVProgress[] {
     const items = storage.get<TVProgress[]>(TV_KEY);

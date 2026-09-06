@@ -7,7 +7,7 @@ import { TVDetail } from "@/components/tv/TVDetail";
 export const revalidate = 3600;
 
 interface Props {
-  params: { id: string };
+  readonly params: { id: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

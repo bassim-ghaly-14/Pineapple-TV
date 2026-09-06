@@ -10,6 +10,12 @@ import { Heart } from "lucide-react";
 
 type Filter = "all" | MediaType;
 
+function filterLabel(f: Filter): string {
+  if (f === "all") return "All";
+  if (f === "movie") return "Movies";
+  return "TV Shows";
+}
+
 export default function FavoritesPage() {
   const { favorites, ready } = usePersonalState();
   const [filter, setFilter] = useState<Filter>("all");
@@ -28,6 +34,23 @@ export default function FavoritesPage() {
     voteAverage: 0,
     voteCount: 0,
   }));
+
+  let content: React.ReactNode;
+  if (!ready) {
+    content = <MediaGrid items={[]} isLoading={true} />;
+  } else if (favorites.length === 0) {
+    content = (
+      <EmptyState
+        icon={<Heart className="h-10 w-10 text-muted" />}
+        title="No favorites yet"
+        message="Mark movies and TV shows as favorites to find them here."
+      />
+    );
+  } else if (items.length === 0) {
+    content = <EmptyState title="No items in this filter" />;
+  } else {
+    content = <MediaGrid items={items} isLoading={false} />;
+  }
 
   return (
     <div className="space-y-6">
@@ -48,24 +71,12 @@ export default function FavoritesPage() {
               filter === f ? "bg-accent text-accent-text" : "text-muted hover:text-text",
             )}
           >
-            {f === "all" ? "All" : f === "movie" ? "Movies" : "TV Shows"}
+            {filterLabel(f)}
           </button>
         ))}
       </div>
 
-      {!ready ? (
-        <MediaGrid items={[]} isLoading={true} />
-      ) : favorites.length === 0 ? (
-        <EmptyState
-          icon={<Heart className="h-10 w-10 text-muted" />}
-          title="No favorites yet"
-          message="Mark movies and TV shows as favorites to find them here."
-        />
-      ) : items.length === 0 ? (
-        <EmptyState title="No items in this filter" />
-      ) : (
-        <MediaGrid items={items} isLoading={false} />
-      )}
+      {content}
     </div>
   );
 }

@@ -125,13 +125,17 @@ function SearchPageContent() {
         ))}
       </div>
 
-      {!activeQuery.trim() ? (
+      {!activeQuery.trim() && (
         <EmptyState title="Start typing to search" message="Find movies and TV shows by title." />
-      ) : error ? (
+      )}
+
+      {activeQuery.trim() !== "" && error && (
         <div className="rounded-lg border border-white/5 bg-surface px-4 py-8 text-center text-sm text-muted">
           Search failed. Please try again.
         </div>
-      ) : (
+      )}
+
+      {activeQuery.trim() !== "" && !error && (
         <>
           {!isLoading && results.length === 0 && activeQuery.trim() && (
             <EmptyState title="No results found" message={`Nothing matched "${activeQuery}".`} />

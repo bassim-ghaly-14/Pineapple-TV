@@ -67,10 +67,9 @@ export default function SettingsPage() {
         </div>
 
         <div className="p-5 sm:p-6">
-          <div
-            role="group"
+          <fieldset
             aria-label="Theme"
-            className="grid grid-cols-2 gap-3 sm:max-w-sm">
+            className="grid min-w-0 grid-cols-2 gap-3 sm:max-w-sm">
             {(["dark", "light"] as const).map((t) => {
               const isActive = theme === t;
 
@@ -101,7 +100,7 @@ export default function SettingsPage() {
                 </button>
               );
             })}
-          </div>
+            </fieldset>
         </div>
       </section>
 
@@ -225,9 +224,8 @@ export default function SettingsPage() {
 
         {/* Danger Content */}
         <div className="p-5 sm:p-6">
-          {cleared ? (
-            <div
-              role="status"
+          {cleared && (
+            <output
               className="flex items-start gap-3 rounded-xl border border-green-400/20 bg-green-400/[0.05] p-4">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-400/10 text-green-400">
                 <Check className="h-4 w-4" />
@@ -242,8 +240,10 @@ export default function SettingsPage() {
                   All personal data stored in this browser has been removed.
                 </p>
               </div>
-            </div>
-          ) : confirming ? (
+            </output>
+          )}
+
+          {!cleared && confirming && (
             <div className="rounded-xl border border-red-500/20 bg-red-500/[0.035] p-4 sm:p-5">
               <div className="flex items-start gap-3">
                 <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-500/10 text-red-400">
@@ -279,7 +279,9 @@ export default function SettingsPage() {
                 </button>
               </div>
             </div>
-          ) : (
+          )}
+
+          {!cleared && !confirming && (
             <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
                 <p className="text-sm font-semibold text-text">
