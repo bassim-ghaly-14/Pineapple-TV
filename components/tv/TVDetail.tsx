@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Calendar, Tv, Clock, Star } from "lucide-react";
 import type { TVShow, CastMember, CrewMember, Video, MediaSummary } from "@/lib/domain/models";
-import { buildPosterUrl, buildBackdropUrl } from "@/lib/tmdb/image-config";
 import { TrailerModal } from "@/components/media/TrailerModal";
 import { pickTrailer } from "@/lib/tmdb/trailer";
-import { CastCard, CrewCard } from "@/components/media/PersonCard";
+import { MediaDetailHero } from "@/components/media/MediaDetailHero";
+import { CastSection } from "@/components/media/CastSection";
+import { CrewSection } from "@/components/media/CrewSection";
 import { MediaRow } from "@/components/media/MediaRow";
 import { WatchlistButton, FavoriteButton, RatingStars } from "@/components/ui/MediaActions";
 import { usePersonalState } from "@/lib/state/PersonalStateContext";
@@ -36,92 +36,66 @@ export function TVDetail({ data }: Props) {
 
   const trailer = pickTrailer(videos);
 
-  const backdrop = buildBackdropUrl(tv.backdropPath, "hero");
   const progress = getShowProgress(tv.id);
   const episodesWatched = getTotalWatchedEpisodes(tv.id);
 
   return (
     <div className="space-y-8">
-      <div className="relative isolate overflow-hidden rounded-xl">
-        <div className="absolute inset-0">
-          {backdrop ? (
-            <Image src={backdrop} alt="" fill priority sizes="100vw" className="object-cover" />
-          ) : (
-            <div className="h-full w-full bg-surface-elevated" />
+      <MediaDetailHero
+        title={tv.title}
+        tagline={tv.tagline}
+        posterPath={tv.posterPath}
+        posterAlt={`${tv.title} poster`}
+        backdropPath={tv.backdropPath}
+        fallbackIcon={<Tv className="h-12 w-12" />}
+      >
+        <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
+          {tv.releaseDate && (
+            <span className="inline-flex items-center gap-1.5">
+              <Calendar className="h-4 w-4" /> {formatDate(tv.releaseDate)}
+            </span>
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/70 to-bg/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-bg/80 via-bg/30 to-transparent" />
+          {tv.numberOfSeasons != null && (
+            <span className="inline-flex items-center gap-1.5">
+              <Clock className="h-4 w-4" /> {tv.numberOfSeasons} season{tv.numberOfSeasons === 1 ? "" : "s"}
+            </span>
+          )}
+          {tv.voteAverage > 0 && (
+            <span className="font-semibold text-accent">★ {formatVote(tv.voteAverage)}</span>
+          )}
         </div>
-        <div className="relative z-10 grid gap-6 p-5 sm:p-8 lg:grid-cols-[200px_1fr] lg:p-12">
-          <div className="hidden lg:block">
-            <div className="aspect-[2/3] overflow-hidden rounded-lg bg-surface-elevated shadow-card">
-              {tv.posterPath ? (
-                <Image
-                  src={buildPosterUrl(tv.posterPath, "medium")!}
-                  alt={`${tv.title} poster`}
-                  width={500}
-                  height={750}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-muted">
-                  <Tv className="h-12 w-12" />
-                </div>
-              )}
-            </div>
+        {tv.genres.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {tv.genres.map((g) => (
+              <span key={g.id} className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted">
+                {g.name}
+              </span>
+            ))}
           </div>
-          <div className="flex flex-col justify-end gap-4">
-            <h1 className="text-2xl font-extrabold leading-tight text-text sm:text-4xl">{tv.title}</h1>
-            {tv.tagline && <p className="text-sm italic text-muted">{tv.tagline}</p>}
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
-              {tv.releaseDate && (
-                <span className="inline-flex items-center gap-1.5">
-                  <Calendar className="h-4 w-4" /> {formatDate(tv.releaseDate)}
-                </span>
-              )}
-              {tv.numberOfSeasons != null && (
-                <span className="inline-flex items-center gap-1.5">
-                  <Clock className="h-4 w-4" /> {tv.numberOfSeasons} season{tv.numberOfSeasons === 1 ? "" : "s"}
-                </span>
-              )}
-              {tv.voteAverage > 0 && (
-                <span className="font-semibold text-accent">★ {formatVote(tv.voteAverage)}</span>
-              )}
-            </div>
-            {tv.genres.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {tv.genres.map((g) => (
-                  <span key={g.id} className="rounded-full border border-white/10 px-3 py-1 text-xs text-muted">
-                    {g.name}
-                  </span>
-                ))}
-              </div>
-            )}
-            {tv.creators.length > 0 && (
-              <p className="text-sm text-muted">
-                <span className="text-text/70">Created by:</span> {tv.creators.join(", ")}
-              </p>
-            )}
-            {tv.overview && <p className="max-w-2xl text-sm text-text/80 sm:text-base">{tv.overview}</p>}
+        )}
+        {tv.creators.length > 0 && (
+          <p className="text-sm text-muted">
+            <span className="text-text/70">Created by:</span> {tv.creators.join(", ")}
+          </p>
+        )}
+        {tv.overview && <p className="max-w-2xl text-sm text-text/80 sm:text-base">{tv.overview}</p>}
 
-            {/* Personal tracking actions */}
-            <div className="flex flex-wrap items-center gap-2">
-              <WatchlistButton media={tv} />
-              <FavoriteButton media={tv} />
-              <RatingStars media={tv} />
-            </div>
-
-            {trailer && (
-              <button
-                onClick={() => setTrailerKey(trailer!.key)}
-                className="inline-flex w-fit items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-text shadow-glow transition-transform hover:scale-105"
-              >
-                ▶ Play Trailer
-              </button>
-            )}
-          </div>
+        {/* Personal tracking actions */}
+        <div className="flex flex-wrap items-center gap-2">
+          <WatchlistButton media={tv} />
+          <FavoriteButton media={tv} />
+          <RatingStars media={tv} />
         </div>
-      </div>
+
+        {trailer && (
+          <button
+            onClick={() => setTrailerKey(trailer!.key)}
+            className="inline-flex w-fit items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-accent-text shadow-glow transition-transform hover:scale-105"
+          >
+            ▶ Play Trailer
+          </button>
+        )}
+      </MediaDetailHero>
 
       {/* Progress */}
       {episodesWatched > 0 && (
@@ -167,30 +141,9 @@ export function TVDetail({ data }: Props) {
         </section>
       )}
 
-      {cast.length > 0 && (
-        <section aria-labelledby="cast-heading" className="space-y-3">
-          <h2 id="cast-heading" className="text-lg font-bold text-text">Top Cast</h2>
-          <div className="scrollbar-none flex gap-4 overflow-x-auto pb-2">
-            {cast.slice(0, 12).map((c) => (
-              <CastCard key={c.id} person={c} />
-            ))}
-          </div>
-        </section>
-      )}
+      <CastSection cast={cast} />
 
-      {crew.length > 0 && (
-        <section aria-labelledby="crew-heading" className="space-y-3">
-          <h2 id="crew-heading" className="text-lg font-bold text-text">Key Crew</h2>
-          <div className="flex flex-wrap gap-4">
-            {crew
-              .filter((c) => ["Creator", "Executive Producer", "Director", "Writer"].includes(c.job))
-              .slice(0, 8)
-              .map((c) => (
-                <CrewCard key={`${c.id}-${c.job}`} person={c} />
-              ))}
-          </div>
-        </section>
-      )}
+      <CrewSection crew={crew} priorityJobs={["Creator", "Executive Producer", "Director", "Writer"]} />
 
       {/* Keywords */}
       {data.keywords.length > 0 && <Keywords keywords={data.keywords} />}

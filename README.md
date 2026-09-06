@@ -111,8 +111,9 @@ app/
 ├── layout.tsx           Root metadata, providers (Query, Theme, PersonalState), AppShell
 ├── sitemap.ts robots.ts not-found.tsx
 components/
-├── media/               MediaCard, MediaGrid, MediaRow, MediaHero, TrailerModal,
-│                        PersonCard, WatchProviders, Keywords
+├── media/               MediaCard, MediaGrid, MediaRow, MediaHero, MediaDetailHero,
+│                        TrailerModal, PersonCard, CastSection, CrewSection,
+│                        MediaCollection, WatchProviders, Keywords
 ├── movie/ tv/           MovieDetail; TVDetail, SeasonView, SeasonSelector
 ├── layout/              AppShell, Header, Sidebar, MobileNavigation, Footer
 ├── discover/ home/      FilterBar; Hero
@@ -120,7 +121,7 @@ components/
 lib/
 ├── domain/              Framework-agnostic domain models
 ├── tmdb/                client, endpoints, schemas (Zod), adapters, trailer, image-config
-├── repositories/        Watchlist, Favorites, Watched, Ratings, Activity + types
+├── repositories/        Watchlist, Favorites (shared SavedMediaRepository), Watched, Ratings, Activity + types
 ├── storage/             StorageAdapter interface + localStorage implementation
 ├── state/               PersonalStateContext (React context over repositories)
 ├── queries/             TanStack Query provider and centralized query keys
@@ -180,7 +181,7 @@ Trailer handling is a dedicated subsystem shared between the API route and detai
 
 Personal state is organized as five repository classes over a `StorageAdapter` interface (`lib/storage`), currently implemented with namespaced `localStorage` (`pineapple:` prefix). Because repositories depend on the adapter interface, persistence could move server-side without touching UI code. Only minimal snapshots are persisted — id, media type, title, poster path — never full TMDB responses.
 
-- **Watchlist / Favorites**: deduplicated add/remove with `addedAt` timestamps
+- **Watchlist / Favorites**: deduplicated add/remove with `addedAt` timestamps; both extend a shared low-level `SavedMediaRepository` (`lib/repositories/savedMediaList.ts`) that implements the keyed CRUD while each domain class supplies its own storage key (`favorites` / `watchlist`)
 - **Watched**: movie ID set plus JSON-safe, episode-level TV progress (`SeasonProgress[]` per show) with last-watched position and lazily enriched title/poster snapshots, including backward compatibility with older stored shapes
 - **Ratings**: 1–5 entries with update-in-place and a derived average
 - **Activity**: capped rolling feed (50 entries) of watchlist/favorite/watched/rating events with consecutive-duplicate suppression
