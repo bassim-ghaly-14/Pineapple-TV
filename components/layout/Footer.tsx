@@ -69,9 +69,9 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group flex min-h-9 items-center rounded-md px-2 -mx-2 text-sm text-muted transition-colors duration-200 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                    className="group -mx-2 flex min-h-9 items-center rounded-md px-2 text-sm text-muted transition-colors duration-200 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
                     <span
-                      className="mr-2 h-1 w-1 shrink-0 rounded-full bg-accent/0 transition-all duration-200 group-hover:bg-accent group-hover:mr-3"
+                      className="mr-2 h-1 w-1 shrink-0 rounded-full bg-accent/0 transition-all duration-200 group-hover:mr-3 group-hover:bg-accent"
                       aria-hidden="true"
                     />
 
@@ -93,9 +93,9 @@ export function Footer() {
                 <li key={href}>
                   <Link
                     href={href}
-                    className="group flex min-h-9 items-center rounded-md px-2 -mx-2 text-sm text-muted transition-colors duration-200 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                    className="group -mx-2 flex min-h-9 items-center rounded-md px-2 text-sm text-muted transition-colors duration-200 hover:bg-accent/5 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
                     <span
-                      className="mr-2 h-1 w-1 shrink-0 rounded-full bg-accent/0 transition-all duration-200 group-hover:bg-accent group-hover:mr-3"
+                      className="mr-2 h-1 w-1 shrink-0 rounded-full bg-accent/0 transition-all duration-200 group-hover:mr-3 group-hover:bg-accent"
                       aria-hidden="true"
                     />
 
@@ -130,8 +130,8 @@ export function Footer() {
               className="font-medium text-accent underline-offset-4 transition-colors duration-200 hover:text-accent/80 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg">
               TMDB
             </a>
-            . This product uses the TMDB API but is not endorsed or certified by
-            TMDB.
+            {". "}This product uses the TMDB API but is not endorsed or
+            certified by TMDB.
           </p>
         </div>
       </div>
