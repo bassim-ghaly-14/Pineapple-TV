@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Clock, Calendar, Film } from "lucide-react";
+import { Clock, Calendar } from "lucide-react";
 import type { Movie, CastMember, CrewMember, Video, MediaSummary } from "@/lib/domain/models";
 import { formatRuntime, formatDate, formatVote } from "@/lib/utils";
 import { TrailerModal } from "@/components/media/TrailerModal";
@@ -41,7 +41,6 @@ export function MovieDetail({ data }: Props) {
         posterPath={movie.posterPath}
         posterAlt={`${movie.title} poster`}
         backdropPath={movie.backdropPath}
-        fallbackIcon={<Film className="h-12 w-12" />}
       >
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
           {movie.releaseDate && (

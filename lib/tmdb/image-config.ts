@@ -2,6 +2,10 @@
 
 const BASE = "https://image.tmdb.org/t/p";
 
+// Single global fallback shown for any missing or failed media/person image.
+export const FALLBACK_IMAGE_URL =
+  "https://res.cloudinary.com/paihc5qx/image/upload/v1788773196/logo_upyusc.png";
+
 export type ImageSizeOption =
   | "w92" | "w154" | "w185" | "w300" | "w342" | "w500" | "w780" | "original";
 

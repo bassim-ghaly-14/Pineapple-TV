@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { Play } from "lucide-react";
 import type { MediaSummary } from "@/lib/domain/models";
 import { buildBackdropUrl } from "@/lib/tmdb/image-config";
 import { formatVote } from "@/lib/utils";
+import { AppImage } from "@/components/media/AppImage";
 
 interface MediaHeroProps {
   readonly media: MediaSummary;
@@ -24,18 +24,14 @@ export function MediaHero({
   return (
     <div className="relative isolate overflow-hidden rounded-xl">
       <div className="absolute inset-0">
-        {backdrop ? (
-          <Image
-            src={backdrop}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-        ) : (
-          <div className="h-full w-full bg-surface-elevated" />
-        )}
+        <AppImage
+          src={backdrop}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/70 to-bg/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-bg/80 via-bg/30 to-transparent" />
       </div>

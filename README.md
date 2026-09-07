@@ -195,6 +195,7 @@ Personal state is organized as five repository classes over a `StorageAdapter` i
 - All media fetching is server-side; cached responses are reused across requests via Next.js fetch caching with per-endpoint revalidation (see table above)
 - Route-level ISR via `revalidate` exports on the home and detail pages
 - `next/image` everywhere with TMDB-hosted remote patterns, explicit `sizes`, `fill` layout, and `priority` only on the hero; a centralized `image-config.ts` picks appropriately sized poster/backdrop/profile/still variants per context instead of always loading originals
+- Graceful fallback handling for media/person images: missing or failed posters, backdrops, cast/crew profiles, and episode stills render a single global Cloudinary asset via a shared `AppImage` component whose `onError` handling cannot loop on the fallback itself
 - Trailers are fetched on demand — the home hero does no video work until the user asks for playback
 - Debounced (350ms) search requests against a server proxy, so the TMDB token is never client-exposed
 - TanStack Query defaults tuned for client queries: 5-minute stale time, 30-minute GC, custom retry that retries 429s up to 3 times but fails fast otherwise

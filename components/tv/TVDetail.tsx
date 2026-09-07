@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Calendar, Tv, Clock, Star } from "lucide-react";
+import { Calendar, Clock, Star } from "lucide-react";
 import type { TVShow, CastMember, CrewMember, Video, MediaSummary } from "@/lib/domain/models";
 import { TrailerModal } from "@/components/media/TrailerModal";
 import { pickTrailer } from "@/lib/tmdb/trailer";
@@ -47,7 +47,6 @@ export function TVDetail({ data }: Props) {
         posterPath={tv.posterPath}
         posterAlt={`${tv.title} poster`}
         backdropPath={tv.backdropPath}
-        fallbackIcon={<Tv className="h-12 w-12" />}
       >
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted">
           {tv.releaseDate && (

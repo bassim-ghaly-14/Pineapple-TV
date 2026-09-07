@@ -5,7 +5,7 @@ import { usePersonalState } from "@/lib/state/PersonalStateContext";
 import { EmptyState } from "@/components/ui/States";
 import { Film, Tv, Bookmark, Heart, Star, CheckCircle, Clock } from "lucide-react";
 import { buildPosterUrl } from "@/lib/tmdb/image-config";
-import Image from "next/image";
+import { AppImage } from "@/components/media/AppImage";
 import type { ActivityEntry, TVProgress } from "@/lib/repositories/types";
 
 function StatCard({
@@ -49,7 +49,7 @@ function ActivityItem({ entry }: { readonly entry: ActivityEntry }) {
   return (
     <Link href={href} className="flex items-center gap-3 rounded-lg p-2 hover:bg-surface-hover">
       <div className="relative h-12 w-9 shrink-0 overflow-hidden rounded bg-surface-elevated">
-        {poster && <Image src={poster} alt="" fill sizes="36px" className="object-cover" />}
+        <AppImage src={poster} alt="" fill sizes="36px" className="object-cover" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-text">{entry.title}</p>
@@ -74,7 +74,7 @@ function ContinueWatchingCard({ progress }: { readonly progress: TVProgress }) {
       className="flex items-center gap-3 rounded-lg border border-white/5 bg-surface p-3 hover:bg-surface-hover"
     >
       <div className="relative h-16 w-11 shrink-0 overflow-hidden rounded bg-surface-elevated">
-        {poster && <Image src={poster} alt="" fill sizes="44px" className="object-cover" />}
+        <AppImage src={poster} alt="" fill sizes="44px" className="object-cover" />
       </div>
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-medium text-text">

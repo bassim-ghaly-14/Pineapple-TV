@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { TVShow, Episode, CastMember } from "@/lib/domain/models";
@@ -10,6 +9,7 @@ import { formatDate, formatRuntime, formatVote, cn } from "@/lib/utils";
 import { usePersonalState } from "@/lib/state/PersonalStateContext";
 import { SeasonSelector } from "./SeasonSelector";
 import { CastCard } from "@/components/media/PersonCard";
+import { AppImage } from "@/components/media/AppImage";
 
 interface SeasonData {
   id: number;
@@ -61,17 +61,13 @@ export function SeasonView({ season, tv, cast }: Props) {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
         <div className="w-24 shrink-0">
           <div className="aspect-[2/3] overflow-hidden rounded-lg bg-surface-elevated">
-            {season.posterPath ? (
-              <Image
-                src={buildPosterUrl(season.posterPath, "medium")!}
-                alt={season.name}
-                width={500}
-                height={750}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-xs text-muted">No image</div>
-            )}
+            <AppImage
+              src={buildPosterUrl(season.posterPath, "medium")}
+              alt={season.name}
+              width={500}
+              height={750}
+              className="h-full w-full object-cover"
+            />
           </div>
         </div>
         <div className="flex-1">
@@ -125,13 +121,7 @@ export function SeasonView({ season, tv, cast }: Props) {
               )}
             >
               <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded-md bg-surface-elevated sm:h-24 sm:w-40">
-                {still ? (
-                  <Image src={still} alt="" fill sizes="160px" className="object-cover" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-xs text-muted">
-                    E{episode.episodeNumber}
-                  </div>
-                )}
+                <AppImage src={still} alt="" fill sizes="160px" className="object-cover" />
               </div>
               <div className="flex min-w-0 flex-1 flex-col">
                 <div className="flex items-start justify-between gap-2">
