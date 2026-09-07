@@ -1,73 +1,101 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { QueryProvider } from "@/lib/queries/client";
-import { ThemeProvider } from "@/lib/theme/provider";
-import { PersonalStateProvider } from "@/lib/state/PersonalStateContext";
-import { AppShell } from "@/components/layout/AppShell";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+import "./globals.css";
+
+import { AppShell } from "@/components/layout/AppShell";
+import { PersonalStateProvider } from "@/lib/state/PersonalStateContext";
+import { ThemeProvider } from "@/lib/theme/provider";
+import { QueryProvider } from "@/lib/queries/client";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
 const FAVICON_URL =
-  "https://res.cloudinary.com/paihc5qx/image/upload/v1788695999/Favicon_fyqlpi.png";
+  "https://res.cloudinary.com/paihc5qx/image/upload/v1788693909/Pineapple_tv_application_icon_ari8mj.png";
+
+const SITE_TITLE = "Pineapple TV — Movie & TV Discovery and Tracking";
+
 const DESCRIPTION =
-  "Discover, track, and organize your movie & TV experience. Pineapple TV is a personal media discovery and tracking platform.";
+  "Discover, track, and organize your movie and TV experience with Pineapple TV — a personal media discovery and tracking platform powered by TMDB.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: "Pineapple TV — Movie & TV Discovery and Tracking", template: "%s | Pineapple TV" },
-  description: DESCRIPTION,
-  applicationName: "Pineapple TV",
-  icons: {
-    icon: FAVICON_URL,
-    shortcut: FAVICON_URL,
-    apple: FAVICON_URL,
+
+  title: {
+    default: SITE_TITLE,
+    template: "%s | Pineapple TV",
   },
+
+  description: DESCRIPTION,
+
+  applicationName: "Pineapple TV",
+
   keywords: [
+    "Pineapple TV",
     "movie tracker",
     "TV show tracker",
     "watchlist",
     "movie discovery",
     "TV discovery",
+    "movie tracking",
+    "TV tracking",
     "episode tracking",
+    "personal media library",
   ],
+
+  icons: {
+    icon: FAVICON_URL,
+    shortcut: FAVICON_URL,
+    apple: FAVICON_URL,
+  },
+
   openGraph: {
-    title: { default: "Pineapple TV — Movie & TV Discovery and Tracking", template: "%s | Pineapple TV" },
-    description: DESCRIPTION,
     type: "website",
     siteName: "Pineapple TV",
     locale: "en_US",
     url: "/",
-  },
-  twitter: {
-    card: "summary",
-    title: "Pineapple TV — Movie & TV Discovery and Tracking",
+    title: SITE_TITLE,
     description: DESCRIPTION,
   },
+
+  twitter: {
+    card: "summary",
+    title: SITE_TITLE,
+    description: DESCRIPTION,
+  },
+
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+    },
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0B0F",
   width: "device-width",
   initialScale: 1,
+  themeColor: "#0B0B0F",
 };
 
 export default function RootLayout({
   children,
-}: {
-  readonly children: React.ReactNode;
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html
       lang="en"
       dir="ltr"
-      className={`${inter.variable}`}
+      className={inter.variable}
       suppressHydrationWarning>
       <body className="min-h-screen font-sans">
         <QueryProvider>
